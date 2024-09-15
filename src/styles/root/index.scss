@@ -1,0 +1,45 @@
+@import "../abstracts/variables.scss";
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap");
+
+*,
+*::after,
+*::before {
+  margin: 0;
+  padding: 0;
+  -webkit-box-sizing: inherit;
+  box-sizing: inherit;
+}
+
+html {
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+  font-size: 62.5%;
+  font-family: var(--primary-font);
+  background-color: var(--primary-background-color);
+  scroll-behavior: smooth;
+
+  @media only screen and (max-width: 420px) {
+    & {
+      font-size: 55%;
+    }
+  }
+
+  @media only screen and (max-width: 320px) {
+    & {
+      font-size: 50%;
+    }
+  }
+}
+
+input,
+select,
+textarea {
+  outline: none;
+  border: none;
+}
+
+button {
+  outline: none !important;
+  border: none;
+  background: transparent;
+}

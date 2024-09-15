@@ -1,0 +1,54 @@
+.normalButton {
+  padding: 1.1rem 2.1rem;
+  font-family: var(--primary-font);
+  transition: var(--primary-transition);
+  background-color: var(--primary-btn-color);
+  color: var(--primary-btn-text-color);
+  text-align: center;
+  white-space: nowrap;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  -webkit-box-shadow: var(--box-shadow-1);
+  box-shadow: var(--box-shadow-1);
+  border-radius: 0.5rem;
+  font-size: 1.4rem;
+  font-weight: 700 !important;
+
+  &[data-main-square-button-normal="true"] {
+    box-shadow: none;
+  }
+
+  svg {
+    fill: var(--primary-btn-color);
+    height: 1.4rem;
+    margin-right: 0.3rem;
+  }
+
+  p {
+    margin-bottom: 0;
+    font-weight: 500 !important;
+    font-family: var(--primary-font) !important;
+  }
+
+  &:disabled {
+    cursor: not-allowed;
+    background-color: var(--secondary-light-gray-color);
+    -webkit-box-shadow: 0 14px 26px -12px rgba(196, 196, 196, 0.42),
+      0 4px 23px 0px rgba(0, 0, 0, 0.12),
+      0 8px 10px -5px rgba(201, 201, 201, 0.2);
+    box-shadow: none;
+    &:hover {
+      background-color: var(--secondary-light-gray-color);
+    }
+  }
+
+  &:active {
+    box-shadow: none;
+  }
+
+  &:hover {
+    background-color: var(--primary-btn-hover-color);
+  }
+}

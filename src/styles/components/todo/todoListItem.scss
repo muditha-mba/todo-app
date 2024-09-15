@@ -1,0 +1,73 @@
+.todoListItem {
+  background-color: var(--primary-background-color-dark-4);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 2.5rem;
+  padding-bottom: 1rem;
+  padding-top: 1rem;
+  margin-bottom: 1rem;
+  box-shadow: 0px 3px 5px rgb(43, 42, 42);
+  border-radius: 0.5rem;
+
+  &__details {
+    max-width: 70%;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    h3 {
+      font-size: 2rem;
+      color: var(--secondary-theme-color);
+      font-weight: 500;
+      margin: 0 !important;
+      line-height: 2rem;
+    }
+
+    p {
+      font-size: 1.4rem;
+      color: rgb(161, 161, 161);
+      margin-top: 0.5rem;
+    }
+  }
+
+  &__controls {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1.5rem;
+
+    &--icon {
+      cursor: pointer;
+      svg {
+        height: 2rem;
+        width: 2rem;
+        fill: var(--secondary-action-color);
+        transition: var(--primary-transition);
+      }
+
+      &-incomplete {
+        &:hover svg {
+          fill: var(--disabled-action-color);
+        }
+      }
+
+      &-complete {
+        &:hover svg {
+          fill: var(--success-action-color);
+        }
+      }
+
+      &-edit {
+        &:hover svg {
+          fill: var(--primary-action-color);
+        }
+      }
+
+      &-delete {
+        &:hover svg {
+          fill: var(--danger-action-color);
+        }
+      }
+    }
+  }
+}

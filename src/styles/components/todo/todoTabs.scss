@@ -1,0 +1,34 @@
+.todoTabs {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.5s ease;
+
+  .active {
+    background-color: var(--secondary-theme-color);
+  }
+  &__item {
+    padding: 1rem;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+    text-align: center;
+    cursor: pointer;
+    font-size: 1.4rem;
+    color: var(--primary-white-color);
+    transition: all 0.5s ease;
+  }
+  &__inCompleted {
+    flex: 1;
+    border-top-left-radius: 2rem;
+    border-bottom-left-radius: 2rem;
+    background-color: var(--primary-background-color-dark-2);
+  }
+
+  &__completed {
+    flex: 1;
+    border-top-right-radius: 2rem;
+    border-bottom-right-radius: 2rem;
+    background-color: var(--primary-background-color-dark-2);
+  }
+}

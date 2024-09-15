@@ -1,0 +1,28 @@
+.primaryButton {
+  padding: 0.8rem 6rem;
+  font-size: 1.5rem;
+  font-family: var(--primary-font);
+  -webkit-transition: var(--primary-transition);
+  transition: var(--primary-transition);
+  background-color: var(--primary-btn-color);
+  border-color: transparent;
+  color: var(--primary-btn-text-color);
+  text-align: center;
+  white-space: nowrap;
+  cursor: pointer;
+  border-radius: 999.9rem;
+  font-weight: 500 !important;
+
+  &:disabled {
+    cursor: not-allowed;
+  }
+
+  &:active {
+    box-shadow: none;
+  }
+  &:hover {
+    -webkit-box-shadow: var(--box-shadow-1);
+    box-shadow: var(--box-shadow-1);
+    background-color: var(--primary-btn-hover-color);
+  }
+}

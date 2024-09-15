@@ -1,0 +1,79 @@
+.normalInput {
+  position: relative;
+  overflow: hidden;
+  border: var(--input-border-1);
+  border-radius: 0.8rem;
+  height: 6rem;
+  margin-top: 1.6rem;
+  width: 100%;
+  transition: var(--primary-transition);
+  display: flex;
+  justify-content: space-between;
+  background-color: var(--input-background-color);
+  flex-flow: column-reverse wrap;
+
+  &:hover {
+    border: var(--input-border-2);
+  }
+
+  &:focus-within {
+    -webkit-box-shadow: 0px 0px 15px -3px rgba(72, 95, 199, 0.25);
+    box-shadow: 0px 0px 15px -3px rgba(72, 95, 199, 0.25);
+
+    @media only screen and (max-width: 850px) {
+      -webkit-box-shadow: none;
+      box-shadow: none;
+    }
+
+    label {
+      color: var(--input-border-hover-color);
+      font-family: var(--primary-font) !important;
+    }
+  }
+
+  label {
+    margin-bottom: 0rem;
+    font-size: 1.1rem;
+    font-weight: 500;
+    color: var(--primary-text-color);
+    padding-left: 1rem;
+    padding-top: 0.5rem;
+    transition: var(--primary-transition);
+    font-family: var(--primary-font) !important;
+    @media only screen and (max-width: 325px) {
+      padding-top: 0.2rem;
+    }
+  }
+
+  input,
+  input:active,
+  input:focus {
+    outline: none;
+    background-color: var(--input-background-color);
+    padding-left: 1rem;
+  }
+
+  input {
+    width: 90%;
+    margin-bottom: 1rem;
+    color: var(--primary-text-color);
+  }
+
+  input:invalid[data-focused="true"] ~ label {
+    color: var(--danger-action-color) !important;
+    font-family: var(--primary-font) !important;
+  }
+
+  input:focus + .loginInput > .loginInput__left > svg {
+    fill: var(--primary-light-gray-color);
+  }
+}
+
+.normalInput-validation-text {
+  margin-bottom: 0rem;
+  font-size: 1rem;
+  font-weight: 500;
+  color: var(--primary-light-gray-color);
+  height: 1rem;
+  margin-left: 0.2rem;
+}

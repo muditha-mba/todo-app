@@ -1,0 +1,67 @@
+.home {
+  background-color: var(--primary-background-color-dark-1);
+  color: white;
+  height: 100vh;
+  width: 100%;
+  overflow: hidden;
+
+  .normalInput {
+    background-color: var(--primary-background-color-dark-2);
+    box-shadow: none;
+    border-color: var(--primary-background-color-dark-4);
+
+    &:focus,
+    &:hover,
+    &:active {
+      border-color: var(--primary-background-color-dark-1);
+    }
+
+    input {
+      background-color: var(--primary-background-color-dark-2);
+      color: var(--secondary-light-gray-color);
+    }
+
+    label {
+      color: var(--secondary-light-gray-color);
+    }
+  }
+
+  h1 {
+    text-align: center;
+  }
+
+  .todo-wrapper {
+    background: var(--primary-background-color-dark-3);
+    padding: 3rem;
+    width: 60%;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 3rem;
+    max-height: calc(100vh - 6rem); // Adjust based on header/footer height
+    box-shadow: 0px 5px 7px rgb(27, 27, 27);
+    border-radius: 0.7rem;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+
+    @media only screen and (max-width: 1000px) {
+      width: 80%;
+    }
+    @media only screen and (max-width: 850px) {
+      width: 90%;
+    }
+
+    .todo-list {
+      padding: 1rem 0.5rem;
+      flex: 1; // Take up the remaining space
+      display: flex;
+      flex-direction: column;
+      overflow-y: auto;
+      -ms-overflow-style: none; // Internet Explorer and Edge
+      scrollbar-width: none; // Firefox
+      &::-webkit-scrollbar {
+        display: none; // Chrome, Safari, and Opera
+      }
+    }
+  }
+}
