@@ -71,6 +71,50 @@ This application is a to-do list manager that supports multiple users. Each user
 
 - **Crypto-JS:** Used for encrypting passwords and securing user data.
 
+## Project Setup
+
+### Prerequisites
+
+- **Node.js** (version 16 or higher)
+- **npm** (comes with Node.js)
+
+### Steps to Set Up Locally
+
+1. **Clone the repository:**
+
+   ```bash
+   git clone <https://github.com/muditha-mba/todo-app>
+   cd todo-app
+   ```
+
+2. **Install dependencies:**
+
+   ```bash
+   npm install
+   ```
+
+3. **Run the development server:**
+
+   ```bash
+   npm run dev
+   ```
+
+   - The application will be available at `http://localhost:5173` (default Vite port).
+
+4. **Build for production:**
+   If you want to build the project for production:
+
+   ```bash
+   npm run build
+   ```
+
+5. **Preview the production build:**
+   ```bash
+   npm run preview
+   ```
+
 ## Contact Support
 
 For assistance with any issues or questions, please contact me at [mba.muditha26@gmail.com](mba.muditha26@gmail.com)
+
+Todo App live demo link - [https://master--todo-app-3422.netlify.app/](https://master--todo-app-3422.netlify.app/)
