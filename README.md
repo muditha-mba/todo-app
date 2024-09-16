@@ -12,6 +12,7 @@ This application is a to-do list manager that supports multiple users. Each user
 - **To-Do Management:** Add, edit, and delete to-do items. Tasks are saved and accessible only to the logged-in user.
 - **Task Status:** Mark tasks as complete or incomplete.
 - **Separate Views:** Toggle between incomplete and completed tasks.
+- **Dark and Light Mode Support:** Toggle between dark and light mode.
 
 ## Getting Started
 

@@ -9,8 +9,8 @@
   --primary-theme-color: #111111;
   --secondary-theme-color: #28b487;
   --secondary-theme-hover-color: #1d946e;
-  --primary-light-gray-color: : #4c4c53;
-  --secondary-light-gray-color: : #dcdbdb;
+  --primary-light-gray-color: #4c4c53;
+  --secondary-light-gray-color: #dcdbdb;
   --primary-black-color: #000000;
   --primary-white-color: #ffffff;
   --orange-action-color: #ff6700;
@@ -28,13 +28,15 @@
   --grad-clr1: #141e30;
   --grad-clr2: #243b55;
   --grad-clr3: #3a5d85;
+  --grad-clr4: #f1f1f1;
+  --grad-clr5: #cccccc;
 
-  //backgrounds
-  --primary-background-color: #f6f5f7;
-  --primary-background-color-dark-1: #1f1e1e;
-  --primary-background-color-dark-2: #2c2b2b;
-  --primary-background-color-dark-3: #353434;
-  --primary-background-color-dark-4: #414040;
+  //backgrounds 
+  --primary-background-color: #ffffff;
+  --primary-background-color-1: #F3F4F8;
+  --primary-background-color-2: #fafafa;
+  --primary-background-color-3: #f3f3f3;
+  --primary-background-color-4: #f2f2f2;
 
   //text
   --primary-text-color: #2e333d;
@@ -45,8 +47,8 @@
   --input-border-hover-color: #9999a9;
 
   //buttons
-  --primary-btn-color: #0e0e0e;
-  --primary-btn-hover-color: #202020;
+  --primary-btn-color: #28b487;
+  --primary-btn-hover-color: #1d946e;
   --primary-btn-text-color: #ffffff;
 
   //borders

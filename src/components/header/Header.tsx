@@ -2,11 +2,25 @@ import "../../styles/components/header/header.scss";
 import logo from "../../assets/png/logo.png";
 import CustomSVGs from "../abstracts/CustomSVGs";
 import HeaderDropdown from "./HeaderDropdown";
-import { useState } from "react";
 import { AnimatePresence } from "framer-motion";
+import { useComponentVisibility } from "../../custom-hooks/useComponentVisibility";
 
 function Header() {
-  const [isDropdownOpen, setIsDropdownOpen] = useState<boolean>(false);
+  // const [isDropdownOpen, setIsDropdownOpen] = useState<boolean>(false);
+
+  const {
+    ref: profileRef,
+    isComponentVisible: isProfileVisible,
+    setIsComponentVisible: setIsProfileVisible,
+  } = useComponentVisibility<HTMLLIElement>(false);
+  const handleProfileClick = () => {
+    setIsProfileVisible((prev) => !prev);
+  };
+
+  const handleProfileItemClick = () => {
+    setIsProfileVisible(false);
+    // Handle specific actions when a dropdown item is clicked
+  };
 
   return (
     <div className="header">
@@ -16,17 +30,22 @@ function Header() {
         </div>
       </div>
       <div className="header__center">Todo APP</div>
-      <div className="header__right">
-        <div
-          onClick={() => {
-            setIsDropdownOpen(!isDropdownOpen);
-          }}
-          className="header__right--profile"
-        >
-          <CustomSVGs svgName="userSVG" />
-        </div>
-      </div>
-      <AnimatePresence>{isDropdownOpen && <HeaderDropdown />}</AnimatePresence>
+      <ul className="header__right">
+        <AnimatePresence>
+          <li
+            ref={profileRef}
+            onClick={handleProfileClick}
+            className="header__right--profile"
+          >
+            <CustomSVGs svgName="userSVG" />
+            {isProfileVisible && (
+              <div onClick={handleProfileItemClick}>
+                <HeaderDropdown />
+              </div>
+            )}
+          </li>
+        </AnimatePresence>
+      </ul>
     </div>
   );
 }

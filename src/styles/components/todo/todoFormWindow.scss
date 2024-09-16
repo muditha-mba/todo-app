@@ -1,13 +1,12 @@
 .todoFormWindow {
-  background-color: var(--primary-background-color-dark-3);
+  background-color: var(--primary-background-color-4);
   padding: 10px;
   display: flex;
   flex-direction: column;
-  box-shadow: var(--even-box-shadow);
+  box-shadow: var(--normal-box-shadow-plus);
+  border-radius: 0.5rem;
   margin: 1rem 0.3rem;
 
-  &__inputs {
-  }
   &__button {
     display: flex;
     justify-content: center;

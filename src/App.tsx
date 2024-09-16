@@ -7,12 +7,22 @@ import { AnimatePresence } from "framer-motion";
 import { useSelector } from "react-redux";
 import { RootState } from "./store/store"; // Adjust the import path as needed
 import Message from "./components/abstracts/Message";
+import appThemeEngine from "./lib/helper-functions/appThemeEngine";
+import { useEffect } from "react";
 
 function App() {
   const message = useSelector((state: RootState) => state.app.message);
   const accessToken = useSelector(
     (state: RootState) => state.auth.auth.accessToken
   );
+
+  const isAppThemeDark = useSelector(
+    (state: RootState) => state.app.isDarkMode
+  );
+
+  useEffect(() => {
+    appThemeEngine(isAppThemeDark);
+  }, [isAppThemeDark]);
 
   return (
     <div className="app">

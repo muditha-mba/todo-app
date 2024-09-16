@@ -9,16 +9,17 @@ type TodoItem = {
   id: string;
   title: string;
   description: string;
+  isCompleted: boolean;
   completedOn?: string;
+  createdOn?: string;
 };
 
-type AllTodos = {
-  incomplete: TodoItem[];
-  completed: TodoItem[];
+type AllTasks = {
+  tasks: TodoItem[];
 };
 
 type UserRecord = {
-  [key: string]: AllTodos;
+  [key: string]: AllTasks;
 };
 
 type AppState = {
@@ -28,7 +29,7 @@ type AppState = {
 };
 
 const initialState: AppState = {
-  isDarkMode: false,
+  isDarkMode: true,
   userRecords: {},
   message: {
     messageType: "",
@@ -40,124 +41,58 @@ export const appSlice = createSlice({
   name: "app",
   initialState,
   reducers: {
-    setAppMode: (state, action: PayloadAction<boolean>) => {
-      state.isDarkMode = action.payload;
+    setAppMode: (state) => {
+      state.isDarkMode = !state.isDarkMode;
     },
     setMessage: (state, action: PayloadAction<Message>) => {
       state.message = action.payload;
     },
-    addUserRecord: (state, action: PayloadAction<string>) => {
-      const email = action.payload;
-      if (!state.userRecords[email]) {
-        state.userRecords[email] = { incomplete: [], completed: [] };
-      }
-    },
+
     addTodo: (
       state,
-      action: PayloadAction<{ email: string; todo: TodoItem }>
+      action: PayloadAction<{ items: TodoItem; currentUserId: string }>
     ) => {
-      const { email, todo } = action.payload;
-      if (!state.userRecords[email]) {
-        state.userRecords[email] = { incomplete: [], completed: [] };
+      const { items, currentUserId } = action.payload;
+
+      if (!state.userRecords[currentUserId]) {
+        state.userRecords[currentUserId] = {
+          tasks: [],
+        };
       }
-      state.userRecords[email].incomplete.push(todo);
+
+      state.userRecords[currentUserId].tasks?.push(items);
     },
+
+    editTodo: (
+      state,
+      action: PayloadAction<{ items: TodoItem; currentUserId: string }>
+    ) => {
+      const { items, currentUserId } = action.payload;
+
+      const taskIndex = state.userRecords[currentUserId].tasks.findIndex(
+        (task) => task.id === items.id
+      );
+
+      state.userRecords[currentUserId].tasks[taskIndex] = items;
+    },
+
     deleteTodo: (
       state,
-      action: PayloadAction<{ email: string; id: string }>
+      action: PayloadAction<{ taskId: string; currentUserId: string }>
     ) => {
-      const { email, id } = action.payload;
-      if (state.userRecords[email]) {
-        state.userRecords[email].incomplete = state.userRecords[
-          email
-        ].incomplete.filter((todo) => todo.id !== id);
+      const { taskId, currentUserId } = action.payload;
 
-        state.userRecords[email].completed = state.userRecords[
-          email
-        ].completed.filter((todo) => todo.id !== id);
-      }
-    },
+      const taskIndex = state.userRecords[currentUserId].tasks.findIndex(
+        (task) => task.id === taskId
+      );
 
-    completeTodo: (
-      state,
-      action: PayloadAction<{ email: string; id: string }>
-    ) => {
-      const { email, id } = action.payload;
-      if (state.userRecords[email]) {
-        const todo = state.userRecords[email].incomplete.find(
-          (todo) => todo.id === id
-        );
-        if (todo) {
-          const completedOn = new Date().toLocaleString();
-          state.userRecords[email].completed.push({ ...todo, completedOn });
-          state.userRecords[email].incomplete = state.userRecords[
-            email
-          ].incomplete.filter((todo) => todo.id !== id);
-        }
-      }
-    },
-    incompleteTodo: (
-      state,
-      action: PayloadAction<{ email: string; id: string }>
-    ) => {
-      const { email, id } = action.payload;
-      if (state.userRecords[email]) {
-        const todo = state.userRecords[email].completed.find(
-          (todo) => todo.id === id
-        );
-        if (todo) {
-          state.userRecords[email].incomplete.push({
-            ...todo,
-            completedOn: undefined,
-          });
-          state.userRecords[email].completed = state.userRecords[
-            email
-          ].completed.filter((todo) => todo.id !== id);
-        }
-      }
-    },
-    updateTodo: (
-      state,
-      action: PayloadAction<{
-        email: string;
-        id: string;
-        updatedItem: Partial<TodoItem>;
-      }>
-    ) => {
-      const { email, id, updatedItem } = action.payload;
-      if (state.userRecords[email]) {
-        const incompleteIndex = state.userRecords[email].incomplete.findIndex(
-          (todo) => todo.id === id
-        );
-        if (incompleteIndex > -1) {
-          state.userRecords[email].incomplete[incompleteIndex] = {
-            ...state.userRecords[email].incomplete[incompleteIndex],
-            ...updatedItem,
-          };
-        } else {
-          const completedIndex = state.userRecords[email].completed.findIndex(
-            (todo) => todo.id === id
-          );
-          if (completedIndex > -1) {
-            state.userRecords[email].completed[completedIndex] = {
-              ...state.userRecords[email].completed[completedIndex],
-              ...updatedItem,
-            };
-          }
-        }
+      if (taskIndex !== -1) {
+        state.userRecords[currentUserId].tasks.splice(taskIndex, 1);
       }
     },
   },
 });
 
 export const appReducer = appSlice.reducer;
-export const {
-  setAppMode,
-  setMessage,
-  addUserRecord,
-  addTodo,
-  deleteTodo,
-  completeTodo,
-  incompleteTodo,
-  updateTodo,
-} = appSlice.actions;
+export const { setAppMode, setMessage, addTodo, editTodo, deleteTodo } =
+  appSlice.actions;

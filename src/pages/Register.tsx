@@ -94,16 +94,18 @@ function Register() {
     <div className="register">
       <div className="register__content">
         <div className="register__content--left">
-          <h1>Join Us Now!</h1>
-          <div className="register__content--left-text">
-            <p>We help the world to stay on track</p>
-          </div>
+          <div className="register__content--left-content">
+            <h1>Join Us Now!</h1>
+            <div className="register__content--left-content-text">
+              <p>We help the world to stay on track</p>
+            </div>
 
-          <PrimaryButton
-            classes="register-btn"
-            value="Sign In"
-            onClick={goToSignIn}
-          />
+            <PrimaryButton
+              classes="register-btn"
+              value="Sign In"
+              onClick={goToSignIn}
+            />
+          </div>
         </div>
         <div className="register__content--right">
           <h1>Sign Up</h1>

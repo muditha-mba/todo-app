@@ -1,0 +1,41 @@
+.noData {
+  margin: 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  img {
+    width: 20rem;
+    object-fit: contain;
+  }
+  h1 {
+    font-size: 2rem;
+    font-weight: 500 !important;
+    font-family: var(--primary-font);
+    color: var(--secondary-action-color);
+    margin: 1rem;
+    margin-bottom: 0.5rem;
+  }
+  p {
+    font-size: 1.4rem;
+    font-weight: 400 !important;
+    font-family: var(--primary-font) !important;
+    color: var(--secondary-action-color);
+    margin: 2 4rem;
+    text-align: center;
+  }
+  &__error {
+    svg {
+      height: 5rem;
+      width: 5rem;
+      fill: var(--danger-action-color);
+    }
+  }
+  &__success {
+    svg {
+      height: 5rem;
+      width: 5rem;
+      fill: var(--secondary-theme-color);
+    }
+  }
+}

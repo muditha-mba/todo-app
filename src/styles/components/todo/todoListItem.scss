@@ -1,5 +1,5 @@
 .todoListItem {
-  background-color: var(--primary-background-color-dark-4);
+  background-color: var(--primary-background-color-4);
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -7,7 +7,7 @@
   padding-bottom: 1rem;
   padding-top: 1rem;
   margin-bottom: 1rem;
-  box-shadow: 0px 3px 5px rgb(43, 42, 42);
+  box-shadow: var(--normal-box-shadow-plus);
   border-radius: 0.5rem;
 
   &__details {

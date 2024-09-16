@@ -156,17 +156,19 @@ function Login() {
           </form>
         </div>
         <div className="login__content--right">
-          <h1>Welcome Back!</h1>
-          <div className="login__content--right-text">
-            <p>Enter your details and start</p>
-            <p>your journey with us</p>
-          </div>
+          <div className="login__content--right-content">
+            <h1>Welcome Back!</h1>
+            <div className="login__content--right-content-text">
+              <p>Enter your details and start</p>
+              <p>your journey with us</p>
+            </div>
 
-          <PrimaryButton
-            classes="login-btn"
-            value="Sign Up"
-            onClick={goToSignUp}
-          />
+            <PrimaryButton
+              classes="login-btn"
+              value="Sign Up"
+              onClick={goToSignUp}
+            />
+          </div>
         </div>
       </div>
     </div>

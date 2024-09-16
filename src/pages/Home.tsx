@@ -1,151 +1,44 @@
 import React, { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
 import "../styles/pages/home.scss";
-import TodoListItem from "../components/todo/TodoListItem";
-import TodoEditWindow from "../components/todo/TodoFormWindow";
 import Header from "../components/header/Header";
-import { RootState } from "../store/store";
-import {
-  addTodo,
-  deleteTodo,
-  completeTodo,
-  incompleteTodo,
-  updateTodo,
-  addUserRecord,
-} from "../store/reducers/appSlice";
-import TodoAddItemsForm from "../components/todo/TodoAddItemsForm";
 import TodoTabs from "../components/todo/TodoTabs";
-
-type TodoItem = {
-  id: string;
-  title: string;
-  description: string;
-  completedOn?: string;
-};
+import TodoAddItemsForm from "../components/todo/TodoAddItemsForm";
+import { useSelector } from "react-redux";
+import { RootState } from "../store/store";
+import TodoListItem from "../components/todo/TodoListItem";
+import NoData from "../components/abstracts/NoData";
+import { TodoItem } from "../Interfaces/TodoInterfaces";
 
 const Home: React.FC = () => {
-  const dispatch = useDispatch();
-  const userEmail = useSelector(
+  const currentUserId = useSelector(
     (state: RootState) => state.auth.auth.currentUserId
   );
   const userRecords = useSelector((state: RootState) => state.app.userRecords);
-  const { incomplete = [], completed = [] } = userRecords[userEmail] || {};
-
   const [isCompleteScreen, setIsCompleteScreen] = useState<boolean>(false);
-  const [newTitle, setNewTitle] = useState<string>("");
-  const [newDescription, setNewDescription] = useState<string>("");
-  const [currentEdit, setCurrentEdit] = useState<number | null>(null);
-  const [currentEditedItem, setCurrentEditedItem] = useState<TodoItem | null>(
-    null
-  );
-  const [editCompletedIndex, setEditCompletedIndex] = useState<number | null>(
-    null
-  );
+  const [completedTasks, setCompletedTasks] = useState<TodoItem[]>([]);
+  const [incompleteTasks, setIncompleteTasks] = useState<TodoItem[]>([]);
 
   useEffect(() => {
-    if (!userRecords[userEmail]) {
-      dispatch(addUserRecord(userEmail));
+    if (userRecords[currentUserId]) {
+      const tasks = userRecords[currentUserId].tasks;
+      const completed = tasks.filter((task) => task.isCompleted);
+      const inCompleted = tasks.filter((task) => !task.isCompleted);
+      setCompletedTasks(completed);
+      setIncompleteTasks(inCompleted);
+    } else {
+      setCompletedTasks([]);
+      setIncompleteTasks([]);
     }
-  }, [dispatch, userEmail, userRecords]);
-
-  const handleAddTodo = () => {
-    if (newTitle && newDescription) {
-      const newTodoItem: TodoItem = {
-        id: new Date().getTime().toString(), // Unique ID
-        title: newTitle,
-        description: newDescription,
-      };
-      dispatch(addTodo({ email: userEmail, todo: newTodoItem }));
-      setNewTitle("");
-      setNewDescription("");
-    }
-  };
-
-  const handleDeleteTodo = (id: string) => {
-    dispatch(deleteTodo({ email: userEmail, id }));
-  };
-
-  const handleComplete = (id: string) => {
-    dispatch(completeTodo({ email: userEmail, id }));
-  };
-
-  const handleIncomplete = (id: string) => {
-    dispatch(incompleteTodo({ email: userEmail, id }));
-  };
-
-  const handleEdit = (index: number, item: TodoItem) => {
-    setCurrentEdit(index);
-    setCurrentEditedItem(item);
-  };
-
-  const handleEditCompleted = (index: number, item: TodoItem) => {
-    setEditCompletedIndex(index);
-    setCurrentEditedItem(item);
-  };
-
-  const handleUpdateTitle = (value: string) => {
-    setCurrentEditedItem((prev) => {
-      if (prev) {
-        return { ...prev, title: value };
-      }
-      return prev;
-    });
-  };
-
-  const handleUpdateDescription = (value: string) => {
-    setCurrentEditedItem((prev) => {
-      if (prev) {
-        return { ...prev, description: value };
-      }
-      return prev;
-    });
-  };
-
-  const handleUpdateToDo = () => {
-    if (currentEdit !== null && currentEditedItem) {
-      dispatch(
-        updateTodo({
-          email: userEmail,
-          id: currentEditedItem.id,
-          updatedItem: currentEditedItem,
-        })
-      );
-      setCurrentEdit(null);
-      setCurrentEditedItem(null);
-    }
-  };
-
-  const handleUpdateCompletedToDo = () => {
-    if (editCompletedIndex !== null && currentEditedItem) {
-      dispatch(
-        updateTodo({
-          email: userEmail,
-          id: currentEditedItem.id,
-          updatedItem: currentEditedItem,
-        })
-      );
-      setEditCompletedIndex(null);
-      setCurrentEditedItem(null);
-    }
-  };
-
-  const handleCloseWindow = () => {
-    setCurrentEdit(null);
-    setEditCompletedIndex(null);
-    setCurrentEditedItem(null);
-  };
+  }, [userRecords, currentUserId]);
 
   return (
     <div className="home">
       <Header />
 
-      <div className="todo-wrapper">
+      <div className="home__todo">
         <TodoAddItemsForm
-          newTitle={newTitle}
-          setNewTitle={setNewTitle}
-          newDescription={newDescription}
-          setNewDescription={setNewDescription}
-          handleAddTodo={handleAddTodo}
+          currentUserId={currentUserId}
+          setIsCompleteScreen={setIsCompleteScreen}
         />
 
         <TodoTabs
@@ -153,70 +46,50 @@ const Home: React.FC = () => {
           setIsCompleteScreen={setIsCompleteScreen}
         />
 
-        <div className="todo-list">
+        <div className="home__todo--list">
+          {/*Rendering incomplete tasks*/}
           {!isCompleteScreen &&
-            incomplete.map((item, index) => {
-              if (currentEdit === index) {
-                return (
-                  <TodoEditWindow
-                    key={item.id}
-                    index={index}
-                    currentEditedItem={currentEditedItem}
-                    handleUpdateTitle={(e) => handleUpdateTitle(e.target.value)}
-                    handleUpdateDescription={(e) =>
-                      handleUpdateDescription(e.target.value)
-                    }
-                    handleUpdateToDo={handleUpdateToDo}
-                    handleCloseWindow={handleCloseWindow}
-                  />
-                );
-              } else {
-                return (
-                  <TodoListItem
-                    key={item.id}
-                    item={item}
-                    index={index}
-                    isCompleteScreen={isCompleteScreen}
-                    onClickIncomplete={() => {}}
-                    onClickComplete={() => handleComplete(item.id)}
-                    onClickDeleteTodo={handleDeleteTodo} // Pass the function directly
-                    onClickEdit={() => handleEdit(index, item)}
-                  />
-                );
-              }
+            incompleteTasks.length > 0 &&
+            incompleteTasks.map((task, index) => {
+              return (
+                <TodoListItem
+                  key={index}
+                  isCompleteScreen={isCompleteScreen}
+                  item={task}
+                  currentUserId={currentUserId}
+                />
+              );
             })}
 
+          {/*Rendering completed tasks*/}
           {isCompleteScreen &&
-            completed.map((item, index) => {
-              if (editCompletedIndex === index) {
-                return (
-                  <TodoEditWindow
-                    key={item.id}
-                    index={index}
-                    currentEditedItem={currentEditedItem}
-                    handleUpdateTitle={(e) => handleUpdateTitle(e.target.value)}
-                    handleUpdateDescription={(e) =>
-                      handleUpdateDescription(e.target.value)
-                    }
-                    handleUpdateToDo={handleUpdateCompletedToDo}
-                    handleCloseWindow={handleCloseWindow}
-                  />
-                );
-              } else {
-                return (
-                  <TodoListItem
-                    key={item.id}
-                    item={item}
-                    index={index}
-                    isCompleteScreen={isCompleteScreen}
-                    onClickIncomplete={() => handleIncomplete(item.id)}
-                    onClickComplete={() => {}}
-                    onClickDeleteTodo={handleDeleteTodo} // Pass the function directly
-                    onClickEdit={() => handleEditCompleted(index, item)}
-                  />
-                );
-              }
+            completedTasks.length > 0 &&
+            completedTasks.map((task, index) => {
+              return (
+                <TodoListItem
+                  key={index}
+                  isCompleteScreen={isCompleteScreen}
+                  item={task}
+                  currentUserId={currentUserId}
+                />
+              );
             })}
+
+          {/* When completed tasks are empty */}
+          {isCompleteScreen && completedTasks.length === 0 && (
+            <NoData
+              title="No Completed Tasks"
+              subTitle={"Mark a task as completed to see it here"}
+            />
+          )}
+
+          {/* When incomplete tasks are empty */}
+          {!isCompleteScreen && incompleteTasks.length === 0 && (
+            <NoData
+              title="No Tasks"
+              subTitle={"Add a new tasks to see it here"}
+            />
+          )}
         </div>
       </div>
     </div>

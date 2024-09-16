@@ -1,79 +1,116 @@
 import "../../styles/components/todo/todoListItem.scss";
 import CustomSVGs from "../abstracts/CustomSVGs";
-
-type TodoItem = {
-  id: string;
-  title: string;
-  description: string;
-  completedOn?: string;
-};
+import { TodoItem } from "../../Interfaces/TodoInterfaces";
+import { useDispatch } from "react-redux";
+import { deleteTodo, editTodo } from "../../store/reducers/appSlice";
+import { useState } from "react";
+import TodoEditWindow from "./TodoFormWindow";
 
 type Props = {
+  currentUserId: string;
   isCompleteScreen: boolean;
   item: TodoItem;
-  index: number;
-  onClickDeleteTodo: (id: string) => void;
-  onClickComplete: (id: string) => void;
-  onClickIncomplete: (id: string) => void;
-  onClickEdit: (index: number, item: TodoItem) => void;
 };
 
-function TodoListItem({
-  isCompleteScreen,
-  item,
-  index,
-  onClickDeleteTodo,
-  onClickComplete,
-  onClickIncomplete,
-  onClickEdit,
-}: Props) {
-  return (
-    <div className="todoListItem">
-      <div className="todoListItem__details">
-        <h3>{item.title}</h3>
-        <p>{item.description}</p>
-        {item.completedOn && (
-          <p>
-            <small>Completed on: {item.completedOn}</small>
-          </p>
-        )}
-      </div>
+function TodoListItem({ isCompleteScreen, item, currentUserId }: Props) {
+  const dispatch = useDispatch();
+  const [isEditWindowOpen, setIsEditWindowOpen] = useState<boolean>(false);
 
-      <div className="todoListItem__controls">
-        {isCompleteScreen && (
-          <div
-            onClick={() => onClickIncomplete(item.id)}
-            title="Mark as incomplete"
-            className="todoListItem__controls--icon todoListItem__controls--icon-incomplete"
-          >
-            <CustomSVGs svgName="crossSVG" />
+  const openEditWindowHandler = () => {
+    setIsEditWindowOpen(true);
+  };
+  const closeEditWindowHandler = () => {
+    setIsEditWindowOpen(false);
+  };
+
+  const onTaskDeleteHandler = () => {
+    const payload = { taskId: item?.id, currentUserId: currentUserId };
+    dispatch(deleteTodo(payload));
+  };
+
+  const setTaskCompletedHandler = () => {
+    dispatch(
+      editTodo({
+        items: {
+          ...item,
+          isCompleted: true,
+          completedOn: new Date().toLocaleString(),
+        },
+        currentUserId,
+      })
+    );
+  };
+
+  const setTaskIncompleteHandler = () => {
+    dispatch(
+      editTodo({
+        items: { ...item, isCompleted: false, completedOn: "" },
+        currentUserId,
+      })
+    );
+  };
+  return (
+    <>
+      {isEditWindowOpen ? (
+        <TodoEditWindow
+          currentEditedItem={item}
+          handleCloseWindow={closeEditWindowHandler}
+          currentUserId={currentUserId}
+        />
+      ) : (
+        <div className="todoListItem">
+          <div className="todoListItem__details">
+            <h3>{item.title}</h3>
+            <p>{item.description}</p>
+            {item.completedOn && isCompleteScreen && (
+              <p>
+                <small>Completed on: {item.completedOn}</small>
+              </p>
+            )}
+            {item.createdOn && !isCompleteScreen && (
+              <p>
+                <small>Created on: {item.createdOn}</small>
+              </p>
+            )}
           </div>
-        )}
-        {!isCompleteScreen && (
-          <div
-            onClick={() => onClickComplete(item.id)}
-            title="Mark as completed"
-            className="todoListItem__controls--icon todoListItem__controls--icon-complete"
-          >
-            <CustomSVGs svgName="tickSVG" />
+
+          <div className="todoListItem__controls">
+            {isCompleteScreen && (
+              <div
+                onClick={setTaskIncompleteHandler}
+                title="Mark as incomplete"
+                className="todoListItem__controls--icon todoListItem__controls--icon-incomplete"
+              >
+                <CustomSVGs svgName="crossSVG" />
+              </div>
+            )}
+            {!isCompleteScreen && (
+              <div
+                onClick={setTaskCompletedHandler}
+                title="Mark as completed"
+                className="todoListItem__controls--icon todoListItem__controls--icon-complete"
+              >
+                <CustomSVGs svgName="tickSVG" />
+              </div>
+            )}
+            <div
+              onClick={openEditWindowHandler}
+              title="Edit"
+              className="todoListItem__controls--icon todoListItem__controls--icon-edit"
+            >
+              <CustomSVGs svgName="editSVG" />
+            </div>
+            <div
+              onClick={onTaskDeleteHandler}
+              title="Delete"
+              className="todoListItem__controls--icon todoListItem__controls--icon-delete"
+            >
+              <CustomSVGs svgName="trashSVG" />
+            </div>
           </div>
-        )}
-        <div
-          onClick={() => onClickEdit(index, item)}
-          title="Edit"
-          className="todoListItem__controls--icon todoListItem__controls--icon-edit"
-        >
-          <CustomSVGs svgName="editSVG" />
         </div>
-        <div
-          onClick={() => onClickDeleteTodo(item.id)}
-          title="Delete"
-          className="todoListItem__controls--icon todoListItem__controls--icon-delete"
-        >
-          <CustomSVGs svgName="trashSVG" />
-        </div>
-      </div>
-    </div>
+      )}
+    </>
   );
 }
 

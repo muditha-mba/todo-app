@@ -17,18 +17,17 @@
     font-size: 1.4rem;
     color: var(--primary-white-color);
     transition: all 0.5s ease;
+    background-color: #464646;
   }
   &__inCompleted {
     flex: 1;
     border-top-left-radius: 2rem;
     border-bottom-left-radius: 2rem;
-    background-color: var(--primary-background-color-dark-2);
   }
 
   &__completed {
     flex: 1;
     border-top-right-radius: 2rem;
     border-bottom-right-radius: 2rem;
-    background-color: var(--primary-background-color-dark-2);
   }
 }
